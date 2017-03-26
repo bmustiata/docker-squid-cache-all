@@ -1,0 +1,14 @@
+= bmst/docker-squid-cache-all
+
+A squid server that caches files for one year.
+
+== Example Usage
+
+[source,sh]
+-----------------------------------------------------------------------------
+docker run -d \
+    --name squid-proxy \
+    -v /opt/squid_cache:/var/spool/squid3:rw \
+    bmst/docker-squid-cache-all
+-----------------------------------------------------------------------------
+

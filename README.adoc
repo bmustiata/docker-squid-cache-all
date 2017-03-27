@@ -2,13 +2,36 @@
 
 A squid server that caches files for one year.
 
+It will also generate its own CA certificate, as `myca.crt` in `/etc/squid3/ssl_cert/`.
+
 == Example Usage
 
 [source,sh]
 -----------------------------------------------------------------------------
 docker run -d \
     --name squid-proxy \
-    -v /opt/squid_cache:/var/spool/squid3:rw \
+    -v /opt/squid/cache:/var/spool/squid3:rw \
+    -v /opt/squid/cert:/etc/squid3/ssl_cert:rw \
     bmst/docker-squid-cache-all
+-----------------------------------------------------------------------------
+
+== Importing the root CA into another host (Ubuntu, docker)
+
+[source,sh]
+-----------------------------------------------------------------------------
+COPY myca.crt /usr/local/share/ca-certificates/myca.crt
+RUN dpkg-reconfigure ca-certificates
+-----------------------------------------------------------------------------
+
+== Running the altered Container with the Proxy
+
+[source,sh]
+-----------------------------------------------------------------------------
+docker run -it \
+    --rm \
+    -e http_proxy=http://squid:3128/ \
+    -e https_proxy=http://squid:3128/ \
+    --link squid-proxy:squid \
+    container-with-certificate
 -----------------------------------------------------------------------------
 

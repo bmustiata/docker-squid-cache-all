@@ -1,6 +1,6 @@
 = bmst/docker-squid-cache-all
 
-A squid server that caches files for one year.
+A squid server that caches files for one day.
 
 It will also generate its own CA certificate, as `myca.crt` in `/etc/squid3/ssl_cert/`.
 
